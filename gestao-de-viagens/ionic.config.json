@@ -1,0 +1,7 @@
+{
+  "name": "Gestao de viagens",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
