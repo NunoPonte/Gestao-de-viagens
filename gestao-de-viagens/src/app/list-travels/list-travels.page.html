@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button> <!-- Botão para abrir o menu -->
+    </ion-buttons>
+    <ion-title>Lista de Viagens</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let travel of travels">
+      <ion-label>
+        <h2>{{ travel.title }}</h2>
+        <p>{{ travel.description }}</p>
+        <p>Tipo: {{ travel.type }}</p>
+        <p>Estado: {{ travel.state }}</p>
+        <p>Início: {{ travel.startAt | date }}</p>
+        <p>Fim: {{ travel.endAt | date }}</p>
+      </ion-label>
+      <ion-button (click)="goToUpdateTravel(travel.id); $event.stopPropagation()">Atualizar</ion-button>
+      <ion-button (click)="deleteTravel(travel.id)">Deletar</ion-button>
+
+      <!-- Campo para adicionar comentários -->
+      <ion-item>
+        <ion-input [(ngModel)]="newComment" placeholder="Escreva um comentário..."></ion-input>
+        <ion-button (click)="addComment(travel.id)">Adicionar</ion-button>
+      </ion-item>
+
+      <!-- Lista de comentários -->
+      <ion-list *ngIf="travel.comments">
+        <ion-item *ngFor="let comment of travel.comments">
+          <ion-label>{{ comment.text }}</ion-label>
+          <ion-button (click)="deleteComment(comment.id)">Deletar</ion-button>
+        </ion-item>
+      </ion-list>
+    </ion-item>
+  </ion-list>
+</ion-content>

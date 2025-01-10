@@ -1,27 +1,18 @@
-#container {
+.welcome-container {
   text-align: center;
+  margin-top: 50px;
 
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+  }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
+  ion-button {
+    margin: 10px 0;
+  }
 }

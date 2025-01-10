@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Criar Viagem</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form (ngSubmit)="saveTravel()">
+    <ion-item>
+      <ion-label position="floating">Descrição</ion-label>
+      <ion-input [(ngModel)]="travelData.description" name="description" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Tipo</ion-label>
+      <ion-input [(ngModel)]="travelData.type" name="type" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Estado</ion-label>
+      <ion-input [(ngModel)]="travelData.state" name="state" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Início</ion-label>
+      <ion-datetime [(ngModel)]="travelData.startAt" name="startAt"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Fim</ion-label>
+      <ion-datetime [(ngModel)]="travelData.endAt" name="endAt"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Criado por</ion-label>
+      <ion-input [(ngModel)]="travelData.createdBy" name="createdBy" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Favorito</ion-label>
+      <ion-toggle [(ngModel)]="travelData.isFav" name="isFav"></ion-toggle>
+    </ion-item>
+    <ion-button expand="full" type="submit">Salvar Viagem</ion-button>
+  </form>
+</ion-content>

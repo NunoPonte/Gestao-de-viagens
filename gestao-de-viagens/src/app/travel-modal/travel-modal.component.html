@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Editar Viagem</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Fechar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label position="floating">Descrição</ion-label>
+      <ion-input [(ngModel)]="travel.description" name="description" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Tipo</ion-label>
+      <ion-input [(ngModel)]="travel.type" name="type" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Estado</ion-label>
+      <ion-input [(ngModel)]="travel.state" name="state" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Início</ion-label>
+      <ion-datetime [(ngModel)]="travel.startAt" name="startAt"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label>Fim</ion-label>
+      <ion-datetime [(ngModel)]="travel.endAt" name="endAt"></ion-datetime>
+    </ion-item>
+  </ion-list>
+  <ion-button expand="full" (click)="save()">Salvar</ion-button>
+</ion-content>
