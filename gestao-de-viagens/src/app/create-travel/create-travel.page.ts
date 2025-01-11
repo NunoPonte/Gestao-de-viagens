@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { TravelService } from '../services/travel.service';
 import { LoadingController, AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-travel',
@@ -24,7 +25,8 @@ export class CreateTravelPage {
   constructor(
     private travelService: TravelService,
     private loadingController: LoadingController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private router: Router,
   ) {}
 
   async saveTravel() {
@@ -51,6 +53,9 @@ export class CreateTravelPage {
         loading.dismiss();
         this.travelData = { description: '', type: '', state: '', startAt: null, endAt: null, createdBy: '', prop1: '', prop2: '', prop3: '', isFav: false }; // Limpa o formulário
         this.showAlert('Sucesso', 'Viagem salva com sucesso!');
+        this.router.navigate(['/list-travels']).then(() => {
+          window.location.reload();
+        });
       },
       (error) => {
         loading.dismiss();

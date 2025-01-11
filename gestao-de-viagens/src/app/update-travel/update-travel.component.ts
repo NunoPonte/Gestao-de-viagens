@@ -17,6 +17,7 @@ export class UpdateTravelComponent implements OnInit {
     startAt: null,
     endAt: null,
   };
+  travels: any[] = [];
 
   constructor(
     private travelService: TravelService,
@@ -30,22 +31,44 @@ export class UpdateTravelComponent implements OnInit {
     this.loadTravel();
   }
 
-  async loadTravel() {
-    try {
-      const travelObservable = await this.travelService.getTravelById(this.travelId);
-      travelObservable.subscribe(
-        (data) => {
-          this.travelData = data; // Carrega os dados da viagem
-        },
-        (error) => {
-          console.error('Erro ao carregar a viagem:', error);
-          this.showAlert('Erro', 'Não foi possível carregar a viagem.');
+  // async loadTravel() {
+  //   try {
+  //     const travelObservable = await this.travelService.getTravelById(this.travelId);
+  //     travelObservable.subscribe(
+  //       (data) => {
+  //         this.travelData = data; // Carrega os dados da viagem
+  //       },
+  //       (error) => {
+  //         console.error('Erro ao carregar a viagem:', error);
+  //         this.showAlert('Erro', 'Não foi possível carregar a viagem.');
+  //       }
+  //     );
+  //   } catch (error) {
+  //     console.error('Erro ao carregar a viagem:', error);
+  //     this.showAlert('Erro', 'Não foi possível carregar a viagem.');
+  //   }
+  // }
+  // Carregar todas as viagens
+  loadTravel() {
+    this.travelService.getTravels().subscribe(
+      (data) => {
+        this.travels = data;
+        const selectedTravel = this.loadSelectedTravel(this.travelId);
+        if (selectedTravel) {
+          this.travelData = selectedTravel; // Carregar os dados da viagem
+        } else {
+          this.showAlert('Erro', 'Viagem não encontrada.');
         }
-      );
-    } catch (error) {
-      console.error('Erro ao carregar a viagem:', error);
-      this.showAlert('Erro', 'Não foi possível carregar a viagem.');
-    }
+      },
+      (error) => {
+        console.error('Erro ao carregar viagens:', error);
+        this.showAlert('Erro', 'Não foi possível carregar as viagens.');
+      }
+    );
+  }
+  // Carregar a viagem selecionada a partir da lista
+  loadSelectedTravel(id: string) {
+    return this.travels.find(travel => travel.id === id);
   }
 
   async updateTravel() {
@@ -54,7 +77,10 @@ export class UpdateTravelComponent implements OnInit {
       updateObservable.subscribe(
         () => {
           this.showAlert('Sucesso', 'Viagem atualizada com sucesso!');
-          this.router.navigate(['/list-travels']); // Redireciona para a lista de viagens
+          //this.router.navigate(['/list-travels']); 
+          this.router.navigate(['/list-travels']).then(() => {
+            window.location.reload();
+          });
         },
         (error) => {
           console.error('Erro ao atualizar a viagem:', error);

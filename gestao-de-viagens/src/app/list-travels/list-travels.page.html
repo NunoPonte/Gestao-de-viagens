@@ -9,27 +9,24 @@
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let travel of travels">
+    <ion-item *ngFor="let travel of travels"> <!-- Use 'travel' aqui -->
       <ion-label>
-        <h2>{{ travel.title }}</h2>
-        <p>{{ travel.description }}</p>
+        <h2>{{ travel.description }}</h2>
         <p>Tipo: {{ travel.type }}</p>
         <p>Estado: {{ travel.state }}</p>
-        <p>Início: {{ travel.startAt | date }}</p>
-        <p>Fim: {{ travel.endAt | date }}</p>
       </ion-label>
-      <ion-button (click)="goToUpdateTravel(travel.id); $event.stopPropagation()">Atualizar</ion-button>
-      <ion-button (click)="deleteTravel(travel.id)">Deletar</ion-button>
+      <ion-button (click)="goToUpdateTravel(travel.id)" color="warning">Atualizar</ion-button>
+      <ion-button (click)="deleteTravel(travel.id)" color="danger">Deletar</ion-button>
 
       <!-- Campo para adicionar comentários -->
       <ion-item>
         <ion-input [(ngModel)]="newComment" placeholder="Escreva um comentário..."></ion-input>
-        <ion-button (click)="addComment(travel.id)">Adicionar</ion-button>
+        <ion-button (click)="addComment(travel.id)">Adicionar</ion-button> <!-- Use 'travel.id' aqui -->
       </ion-item>
 
       <!-- Lista de comentários -->
       <ion-list *ngIf="travel.comments">
-        <ion-item *ngFor="let comment of travel.comments">
+        <ion-item *ngFor="let comment of travel.comments"> <!-- Use 'travel.comments' aqui -->
           <ion-label>{{ comment.text }}</ion-label>
           <ion-button (click)="deleteComment(comment.id)">Deletar</ion-button>
         </ion-item>

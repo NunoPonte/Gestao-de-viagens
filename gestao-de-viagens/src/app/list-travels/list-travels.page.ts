@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { TravelService } from '../services/travel.service';
-import { NavController } from '@ionic/angular';
 import { NotificationService } from '../services/notification.service';
 import { ErrorHandlerService } from '../services/error-handler.service';
 import { AlertController, LoadingController } from '@ionic/angular';
@@ -16,7 +15,6 @@ export class ListTravelsPage implements OnInit {
   newComment: string = ''; // Definindo a propriedade newComment
 
   constructor(
-    private navCtrl: NavController,
     private travelService: TravelService,
     private notificationService: NotificationService,
     private errorHandler: ErrorHandlerService,
@@ -29,22 +27,32 @@ export class ListTravelsPage implements OnInit {
     this.loadTravels();
   }
 
-  async loadTravels() {
-    try {
-      const travelsObservable = await this.travelService.getTravels();
-      travelsObservable.subscribe(
-        (data) => {
-          this.travels = data;
-        },
-        (error) => {
-          this.errorHandler.handleError(error);
-          this.notificationService.presentToast('Erro ao carregar viagens.');
-        }
-      );
-    } catch (error) {
-      this.errorHandler.handleError(error);
-      this.notificationService.presentToast('Erro ao carregar viagens.');
-    }
+  // async loadTravels() {
+  //   try {
+  //     const travelsObservable = await this.travelService.getTravels();
+  //     travelsObservable.subscribe(
+  //       (data) => {
+  //         this.travels = data;
+  //       },
+  //       (error) => {
+  //         this.errorHandler.handleError(error);
+  //         this.notificationService.presentToast('Erro ao carregar viagens.');
+  //       }
+  //     );
+  //   } catch (error) {
+  //     this.errorHandler.handleError(error);
+  //     this.notificationService.presentToast('Erro ao carregar viagens.');
+  //   }
+  // }
+  loadTravels() {
+    this.travelService.getTravels().subscribe(
+      (data) => {
+        this.travels = data;
+      },
+      (error) => {
+        console.error('Erro ao carregar viagens', error);
+      }
+    );
   }
 
   async addComment(travelId: string) {
@@ -106,7 +114,7 @@ export class ListTravelsPage implements OnInit {
   }
 
   goToUpdateTravel(id: string) {
-    this.router.navigate(['/update-travel', id]);
+    this.router.navigate(['/update-travel/', id]);
   }
 
   async showAlert(header: string, message: string) {
