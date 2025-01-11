@@ -21,7 +21,7 @@ import { UpdateTravelComponent } from './update-travel/update-travel.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule, // Adicionando FormsModule aqui
-    IonicModule.forRoot() // Certifique-se de que o IonicModule está aqui
+    IonicModule.forRoot(), // Certifique-se de que o IonicModule está aqui
   ],
   providers: [],
   bootstrap: [AppComponent]

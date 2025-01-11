@@ -55,44 +55,7 @@ export class ListTravelsPage implements OnInit {
     );
   }
 
-  async addComment(travelId: string) {
-    if (!this.newComment.trim()) {
-      this.notificationService.presentToast('O comentário não pode estar vazio.');
-      return;
-    }
-
-    this.travelService.createComment(travelId, this.newComment).subscribe(
-      () => {
-        this.notificationService.presentToast('Comentário adicionado com sucesso!');
-        this.newComment = ''; // Limpa o campo de comentário
-        this.loadTravels(); // Recarrega as viagens para mostrar o novo comentário
-      },
-      (error) => {
-        this.errorHandler.handleError(error);
-        this.notificationService.presentToast('Erro ao adicionar comentário.');
-      }
-    );
-  }
-
-  async deleteComment(commentId: string) {
-    const loading = await this.loadingController.create({
-      message: 'Deletando comentário...',
-    });
-    await loading.present();
-
-    this.travelService.deleteComment(commentId).subscribe(
-      () => {
-        loading.dismiss();
-        this.notificationService.presentToast('Comentário removido com sucesso!');
-        this.loadTravels(); // Recarrega as viagens para atualizar a lista de comentários
-      },
-      (error) => {
-        loading.dismiss();
-        this.errorHandler.handleError(error);
-        this.notificationService.presentToast('Erro ao remover comentário.');
-      }
-    );
-  }
+    
 
   async deleteTravel(id: string) {
     const loading = await this.loadingController.create({
@@ -115,6 +78,10 @@ export class ListTravelsPage implements OnInit {
 
   goToUpdateTravel(id: string) {
     this.router.navigate(['/update-travel/', id]);
+  }
+
+  goToTravelDetails(travelId: string) {
+    this.router.navigate(['/travel-details', travelId]);
   }
 
   async showAlert(header: string, message: string) {

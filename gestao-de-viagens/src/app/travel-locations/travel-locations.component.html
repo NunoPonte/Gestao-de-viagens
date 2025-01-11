@@ -1,0 +1,16 @@
+<!-- src/app/travel-locations/travel-locations.component.html -->
+
+<div>
+  <h2>Locais de Viagem</h2>
+  <ul>
+    <li *ngFor="let location of locations">
+      {{ location.description }} <button (click)="deleteLocation(location.id)">Deletar</button>
+    </li>
+  </ul>
+
+  <h3>Adicionar Novo Local</h3>
+  <form (ngSubmit)="addLocation()">
+    <input [(ngModel)]="newLocation.description" placeholder="Descrição" required />
+    <button type="submit">Adicionar</button>
+  </form>
+</div>

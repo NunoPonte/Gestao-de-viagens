@@ -19,18 +19,7 @@
       <ion-button (click)="deleteTravel(travel.id)" color="danger">Deletar</ion-button>
 
       <!-- Campo para adicionar comentários -->
-      <ion-item>
-        <ion-input [(ngModel)]="newComment" placeholder="Escreva um comentário..."></ion-input>
-        <ion-button (click)="addComment(travel.id)">Adicionar</ion-button> <!-- Use 'travel.id' aqui -->
-      </ion-item>
-
-      <!-- Lista de comentários -->
-      <ion-list *ngIf="travel.comments">
-        <ion-item *ngFor="let comment of travel.comments"> <!-- Use 'travel.comments' aqui -->
-          <ion-label>{{ comment.text }}</ion-label>
-          <ion-button (click)="deleteComment(comment.id)">Deletar</ion-button>
-        </ion-item>
-      </ion-list>
+      
     </ion-item>
   </ion-list>
 </ion-content>
