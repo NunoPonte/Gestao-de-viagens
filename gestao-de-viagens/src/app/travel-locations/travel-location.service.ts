@@ -8,6 +8,8 @@ import { TravelLocation } from './travel-location.model'; // Ajuste o caminho co
 })
 export class TravelLocationService {
   private apiUrl = 'https://mobile-api-one.vercel.app/api/travels';
+  private username = 'nunoponte@ipvc.pt'; // E-mail do usuário
+  private password = 'y5z@t0bZ'; // Senha do usuário
 
   constructor(private http: HttpClient) {}
 

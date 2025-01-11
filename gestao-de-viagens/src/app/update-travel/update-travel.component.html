@@ -31,20 +31,6 @@
       <ion-label position="floating">Fim</ion-label>
       <ion-datetime [(ngModel)]="travelData.endAt" name="endAt" required [disabled]="!isEditing"></ion-datetime>
     </ion-item>
-
-    <ion-list>
-      <ion-item *ngFor="let location of travelData.locations">
-        <ion-label>
-          <h2>Local: {{ location.description }}</h2>
-          <p>Tipo: {{ location.type }}</p>
-          <p>Estado: {{ location.state }}</p>
-          <p>Início: {{ location.startAt | date }}</p>
-          <p>Fim: {{ location.endAt | date }}</p>
-        </ion-label>
-        <ion-button *ngIf="isEditing" (click)="editLocation(location)">Editar</ion-button>
-      </ion-item>
-    </ion-list>
-
     <ion-button expand="full" type="submit" *ngIf="isEditing">Atualizar Viagem</ion-button>
   </form>
 

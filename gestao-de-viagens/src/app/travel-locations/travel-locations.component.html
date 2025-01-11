@@ -1,16 +1,26 @@
-<!-- src/app/travel-locations/travel-locations.component.html -->
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Locais da Viagem</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-<div>
-  <h2>Locais de Viagem</h2>
-  <ul>
-    <li *ngFor="let location of locations">
-      {{ location.description }} <button (click)="deleteLocation(location.id)">Deletar</button>
-    </li>
-  </ul>
-
-  <h3>Adicionar Novo Local</h3>
+<ion-content>
   <form (ngSubmit)="addLocation()">
-    <input [(ngModel)]="newLocation.description" placeholder="Descrição" required />
-    <button type="submit">Adicionar</button>
+    <ion-item>
+      <ion-label position="floating">Descrição</ion-label>
+      <ion-input [(ngModel)]="newLocation.description" name="description" required></ion-input>
+    </ion-item>
+    <ion-button expand="full" type="submit">Adicionar Local</ion-button>
   </form>
-</div>
+
+  <ion-list>
+    <ion-item *ngFor="let location of locations">
+      <ion-label>
+        <h2>{{ location.description }}</h2>
+        <p>Tipo: {{ location.type }}</p>
+        <p>Estado: {{ location.state }}</ p>
+      </ion-label>
+      <ion-button (click)="deleteLocation(location.id)" slot="end" color="danger">Deletar</ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { TravelService } from '../services/travel.service';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { TravelLocationService } from '../travel-locations/travel-location.service';
-import { TravelLocation } from '../travel-locations/travel-location.model';
 
 @Component({
   selector: 'app-create-travel',
@@ -12,7 +10,6 @@ import { TravelLocation } from '../travel-locations/travel-location.model';
 })
 export class CreateTravelPage {
   travelData = {
-    id: '',
     description: '',
     type: '',
     state: '',
@@ -25,14 +22,11 @@ export class CreateTravelPage {
     isFav: false,
   };
 
-  newLocation: TravelLocation = new TravelLocation('', '', '', '', '', '', new Date(), new Date(), '', '', '', '', false, '', '');
-
   constructor(
     private travelService: TravelService,
     private loadingController: LoadingController,
     private alertController: AlertController,
-    private router: Router,
-    private travelLocationService: TravelLocationService
+    private router: Router
   ) {}
 
   async saveTravel() {
@@ -57,7 +51,7 @@ export class CreateTravelPage {
     this.travelService.createTravel(travelToSave).subscribe(
       (data) => {
         loading.dismiss();
-        this.travelData.id = data.id; // Armazena o ID retornado pela API
+        this.travelData = { description: '', type: '', state: '', startAt: null, endAt: null, createdBy: '', prop1: '', prop2: '', prop3: '', isFav: false }; // Limpa o formulário
         this.showAlert('Sucesso', 'Viagem salva com sucesso!');
         this.router.navigate(['/list-travels']).then(() => {
           window.location.reload();
@@ -65,36 +59,16 @@ export class CreateTravelPage {
       },
       (error) => {
         loading.dismiss();
-        this.showAlert('Erro', 'Não foi possível salvar a viagem. Tente novamente mais tarde.');
+        this.showAlert('Erro', 'Não foi possível salvar a viagem.');
       }
     );
   }
 
-  addLocation() {
-    this.newLocation.travelId = this.travelData.id; // Associar o local à nova viagem
-    this.travelLocationService.addLocation(this.newLocation).subscribe(
-      (location) => {
-        this.newLocation = new TravelLocation('', '', '', '', '', '', new Date(), new Date(), '', '', '', '', false, '', ''); // Resetar o formulário
-        this.showAlert('Sucesso', 'Local adicionado com sucesso!');
-      },
-      (error) => {
-        console.error('Erro ao adicionar local', error);
-        this.showAlert('Erro', 'Não foi possível adicionar o local.');
-      }
-    );
-  }
-
-  onLocationSelected(location: { lat: number; lng: number }) {
-    this.newLocation.latitude = location.lat.toString();
-    this.newLocation.longitude = location.lng.toString();
-    console.log('Localização selecionada:', this.newLocation);
-  }
-
-  private async showAlert(header: string, message: string) {
+  async showAlert(header: string, message: string) {
     const alert = await this.alertController.create({
       header,
       message,
-      buttons: ['OK'],
+      buttons: ['OK']
     });
     await alert.present();
   }

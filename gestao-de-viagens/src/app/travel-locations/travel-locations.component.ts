@@ -9,7 +9,7 @@ import { TravelLocation } from './travel-location.model';
   styleUrls: ['./travel-locations.component.scss'],
 })
 export class TravelLocationsComponent implements OnInit {
-  travelId!: string; // Usando o operador '!' para indicar que será inicializado mais tarde
+  travelId!: string; 
   locations: TravelLocation[] = [];
   newLocation: TravelLocation = new TravelLocation('', '', '', '', '', '', new Date(), new Date(), '', '', '', '', false);
 
@@ -19,11 +19,10 @@ export class TravelLocationsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Obter o travelId da rota
     const travelIdParam = this.route.snapshot.paramMap.get('id');
     if (travelIdParam) {
-      this.travelId = travelIdParam; // Atribuir o valor ao travelId
-      this.loadLocations(); // Carregar os locais após obter o travelId
+      this.travelId = travelIdParam;
+      this.loadLocations();
     } else {
       console.error('ID da viagem não encontrado na rota.');
     }
@@ -32,7 +31,7 @@ export class TravelLocationsComponent implements OnInit {
   loadLocations() {
     this.travelLocationService.getLocationsByTravelId(this.travelId).subscribe(
       (data) => {
-        this.locations = data; // Armazenar os locais na propriedade locations
+        this.locations = data;
       },
       (error) => {
         console.error('Erro ao carregar locais de viagem', error);
@@ -41,11 +40,11 @@ export class TravelLocationsComponent implements OnInit {
   }
 
   addLocation() {
-    this.newLocation.travelId = this.travelId; // Associar o local à viagem
+    this.newLocation.travelId = this.travelId; 
     this.travelLocationService.addLocation(this.newLocation).subscribe(
       (location) => {
-        this.locations.push(location); // Adicionar o novo local à lista
-        this.newLocation = new TravelLocation('', '', '', '', '', '', new Date(), new Date(), '', '', '', '', false); // Resetar o formulário
+        this.locations.push(location);
+        this.newLocation = new TravelLocation('', '', '', '', '', '', new Date(), new Date(), '', '', '', '', false);
       },
       (error) => {
         console.error('Erro ao adicionar local', error);
@@ -56,7 +55,7 @@ export class TravelLocationsComponent implements OnInit {
   deleteLocation(locationId: string) {
     this.travelLocationService.deleteLocation(locationId).subscribe(
       () => {
-        this.locations = this.locations.filter(location => location.id !== locationId); // Remover o local da lista
+        this.locations = this.locations.filter(location => location.id !== locationId);
       },
       (error) => {
         console.error('Erro ao deletar local', error);

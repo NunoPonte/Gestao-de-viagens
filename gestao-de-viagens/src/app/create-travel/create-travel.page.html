@@ -10,7 +10,7 @@
 <ion-content>
   <form (ngSubmit)="saveTravel()">
     <ion-item>
-      <ion-label position ="floating">Descrição</ion-label>
+      <ion-label position="floating">Descrição</ion-label>
       <ion-input [(ngModel)]="travelData.description" name="description" required></ion-input>
     </ion-item>
     <ion-item>
@@ -37,12 +37,8 @@
       <ion-label>Favorito</ion-label>
       <ion-toggle [(ngModel)]="travelData.isFav" name="isFav"></ion-toggle>
     </ion-item>
-    <h2>Adicionar Local</h2>
-    <ion-item>
-      <ion-label position="floating">Nome do Local</ion-label>
-      <ion-input [(ngModel)]="newLocation.description" name="locationDescription" required></ion-input>
-    </ion-item>
-    <ion-button expand="full" (click)="addLocation()">Adicionar Local</ion-button>
+    
     <ion-button expand="full" type="submit">Salvar Viagem</ion-button>
   </form>
+  
 </ion-content>

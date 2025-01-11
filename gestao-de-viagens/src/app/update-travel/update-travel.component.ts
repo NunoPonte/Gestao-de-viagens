@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { NotificationService } from '../services/notification.service';
 import { ErrorHandlerService } from '../services/error-handler.service';
-import { TravelLocationService } from '../travel-locations/travel-location.service';
 
 @Component({
   selector: 'app-update-travel',
@@ -12,23 +11,20 @@ import { TravelLocationService } from '../travel-locations/travel-location.servi
   styleUrls: ['./update-travel.component.scss'],
 })
 export class UpdateTravelComponent implements OnInit {
-  travelId!: string; 
+  travelId!: string; // Usando o operador '!' para indicar que será inicializado mais tarde
   travelData: any = {
     description: '',
     type: '',
     state: '',
     startAt: null,
     endAt: null,
-    locations: [],
-    comments: []
   };
   newComment: string = ''; 
   travels: any[] = [];
-  isEditing: boolean = false;
+  isEditing: boolean = false; // Flag para controlar o modo de edição
 
   constructor(
     private travelService: TravelService,
-    private travelLocationService: TravelLocationService,
     private route: ActivatedRoute,
     private router: Router,
     private alertController: AlertController,
@@ -38,18 +34,19 @@ export class UpdateTravelComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.travelId = this.route.snapshot.paramMap.get('id')!;
+    this.travelId = this.route.snapshot.paramMap.get('id')!; // Usando '!' para garantir que não será null
     this.loadTravel();
   }
 
   loadTravel() {
     this.travelService.getTravels().subscribe(
       (data) => {
-        this.travelData = data.find(travel => travel.id === this.travelId) || {};
-        if (!this.travelData) {
-          this.showAlert('Erro', 'Viagem não encontrada.');
+        this.travels = data;
+        const selectedTravel = this.loadSelectedTravel(this.travelId);
+        if (selectedTravel) {
+          this.travelData = selectedTravel; // Carregar os dados da viagem
         } else {
-          this.loadTravelLocations();
+          this.showAlert('Erro', 'Viagem não encontrada.');
         }
       },
       (error) => {
@@ -59,34 +56,29 @@ export class UpdateTravelComponent implements OnInit {
     );
   }
 
-  loadTravelLocations() {
-    this.travelLocationService.getLocationsByTravelId(this.travelId).subscribe(
-      (locations) => {
-        this.travelData.locations = locations;
-      },
-      (error) => {
-        console.error('Erro ao carregar locais:', error);
-        this.showAlert('Erro', 'Não foi possível carregar os locais da viagem.');
-      }
-    );
-  }
-
-  // Método editLocation adicionado aqui
-  editLocation(location: any) {
-    console.log('Editar localização:', location);
-    // Aqui você pode adicionar a lógica de edição ou navegação para outra página
-    // Exemplo: this.router.navigate(['/edit-location', location.id]);
+  loadSelectedTravel(id: string) {
+    return this.travels.find(travel => travel.id === id);
   }
 
   toggleEdit() {
-    this.isEditing = !this.isEditing;
+    this.isEditing = !this.isEditing; // Alterna o modo de edição
   }
 
   async updateTravel() {
     try {
-      await this.travelService.updateTravel(this.travelId, this.travelData);
-      this.showAlert('Sucesso', 'Viagem atualizada com sucesso!');
-      this.router.navigate(['/list-travels']);
+      const updateObservable = await this.travelService.updateTravel(this.travelId, this.travelData);
+      updateObservable.subscribe(
+        () => {
+          this.showAlert('Sucesso', 'Viagem atualizada com sucesso!');
+          this.router.navigate(['/list-travels']).then(() => {
+            window.location.reload();
+          });
+        },
+        (error) => {
+          console.error('Erro ao atualizar a viagem:', error);
+          this.showAlert('Erro', 'Não foi possível atualizar a viagem.');
+        }
+      );
     } catch (error) {
       console.error('Erro ao atualizar a viagem:', error);
       this.showAlert('Erro', 'Não foi possível atualizar a viagem.');
@@ -95,13 +87,18 @@ export class UpdateTravelComponent implements OnInit {
 
   addComment() {
     if (!this.newComment.trim()) {
-      alert('O comentário não pode estar vazio.');
+      alert('O comentário não pode estar vazio.'); // Alerta simples
       return;
     }
-
-    this.travelService.createComment(this.travelId, this.newComment).subscribe(() => {
-      this.newComment = '';
-      this.loadTravel();
+  
+    this.travelService.createComment(this.travelId, this.newComment).subscribe({
+      next: () => {
+        this.newComment = ''; // Limpa o campo de entrada
+        this.loadTravel(); // Recarrega as viagens para obter os comentários atualizados
+      },
+      error: (error) => {
+        console.error('Erro ao adicionar comentário:', error);
+      }
     });
   }
 
@@ -115,7 +112,7 @@ export class UpdateTravelComponent implements OnInit {
       () => {
         loading.dismiss();
         this.notificationService.presentToast('Comentário removido com sucesso!');
-        this.loadTravel();
+        this.loadTravel(); // Recarrega as viagens para atualizar a lista de comentários
       },
       (error) => {
         loading.dismiss();
@@ -127,7 +124,7 @@ export class UpdateTravelComponent implements OnInit {
 
   async showAlert(header: string, message: string) {
     const alert = await this.alertController.create({
-      header,
+      header : header,
       message,
       buttons: ['OK']
     });
