@@ -65,7 +65,7 @@ export class LocalPage {
         loading.dismiss();
         this.localData = { travelId: '', description: '', type: '', state: '', map: '', startAt: null, endAt: null, createdBy: '', prop1: '', prop2: '', prop3: ''}; // Limpa o formulário
         this.showAlert('Sucesso', 'Local salvo com sucesso!');
-        this.router.navigate(['/list-local']).then(() => {
+        this.router.navigate(['/list-travels']).then(() => {
           window.location.reload();
         });
       },

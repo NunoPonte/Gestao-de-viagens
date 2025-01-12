@@ -88,6 +88,17 @@ export class DetailsTravelPage implements OnInit {
       }
     );
   }
+  editLocations(){
+    this.travelService.deleteTravel(this.id).subscribe(
+      () => {
+        console.log('Viagem deletada com sucesso');
+        this.router.navigate(['/list-travels']); // Redireciona para a lista de viagens
+      },
+      (error) => {
+        console.error('Erro ao deletar a viagem', error);
+      }
+    );
+  }
   updateTravel() {
     this.router.navigate(['/update-travel', this.id]); // Navega para a página de atualização
   }
@@ -100,6 +111,18 @@ export class DetailsTravelPage implements OnInit {
       },
       (error) => {
         console.error('Erro ao deletar a viagem', error);
+      }
+    );
+  }
+  deleteLocation(locationId: string) {
+    this.localService.deleteLocal(locationId).subscribe(
+      () => {
+        console.log('Local deletado com sucesso');
+        // Atualize a lista de localizações
+        this.loadLocations(); // Recarrega as localizações
+      },
+      (error) => {
+        console.error('Erro ao deletar local', error);
       }
     );
   }

@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Atualizar Local</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form>
+    <ion-item>
+      <ion-label position="floating">Descrição</ion-label>
+      <ion-input [(ngModel)]="localData.description" name="description"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Tipo</ion-label>
+      <ion-input [(ngModel)]="localData.type" name="type"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Estado</ion-label>
+      <ion-input [(ngModel)]="localData.state" name="state"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Início</ion-label>
+      <ion-datetime [(ngModel)]="localData.startAt" name="startAt"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Fim</ion-label>
+      <ion-datetime [(ngModel)]="localData.endAt" name="endAt"></ion-datetime>
+    </ion-item>
+    <ion-list>
+      <ion-item>
+        <ion-select label="Viagem" (ionChange)="onLocalChange($event)">
+          <ion-select-option *ngFor="let local of locals" [value]="local.id">{{ local.description }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+
+    <!-- Botão de atualização exibido apenas quando um local é selecionado -->
+    <ion-item *ngIf="localData.id">
+      <ion-button expand="full" (click)="updateLocal(localData.id)">Atualizar Local</ion-button>
+    </ion-item>
+  </form>
+</ion-content>

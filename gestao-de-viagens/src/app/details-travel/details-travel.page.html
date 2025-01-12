@@ -11,6 +11,7 @@
         <h2>{{ location.description }}</h2>
         <p>Tipo: {{ location.type }}</p>
         <p>Estado: {{ location.state }}</p>
+        <ion-button (click)="deleteLocation(location.id)" color="danger" size="small">Deletar Local</ion-button>
         <ion-item>
           <ion-input
             [(ngModel)]="comments[location.id]"

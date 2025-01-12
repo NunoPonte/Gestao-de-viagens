@@ -50,6 +50,12 @@ export class LocalService  {
       finalize(() => loading.then(l => l.dismiss())) // Dismiss o loading após a requisição
     );
   }
+  getLocalsById(localId: string): Observable<any[]> {
+    const loading = this.presentLoading('Carregando locais...');
+    return this.http.get<any[]>(`${this.apiUrl}/${this.viagem}/locations/${localId}`, { headers: this.createAuthorizationHeader() }).pipe(
+      finalize(() => loading.then(l => l.dismiss())) // Dismiss o loading após a requisição
+    );
+  }
   // Obter uma viagem por ID
   getLocationsByTravelId(id: string): Observable<any> {
     this.viagem = id;
@@ -89,8 +95,8 @@ export class LocalService  {
   }
   // Deletar uma viagem 
   deleteLocal(id: string): Observable<any> {
-    const loading = this.presentLoading('Deletando viagem...');
-    return this.http.delete(`${this.apiUrl}/${id}`, { headers: this.createAuthorizationHeader() }).pipe(
+    const loading = this.presentLoading('Deletando local...');
+    return this.http.delete(`${this.apiUrl}/locations/${id}`, { headers: this.createAuthorizationHeader() }).pipe(
       finalize(() => loading.then(l => l.dismiss())) // Dismiss o loading após a requisição
     );
   }
