@@ -13,7 +13,7 @@ export class LocalService  {
   private username = 'nunoponte@ipvc.pt'; // E-mail do usuário
   private password = 'y5z@t0bZ'; // Senha do usuário
 
-
+  private viagem = '';
   constructor(
       private http: HttpClient,
       private loadingController: LoadingController,
@@ -51,9 +51,10 @@ export class LocalService  {
     );
   }
   // Obter uma viagem por ID
-    getLocalById(id: string): Observable<any> {
+  getLocationsByTravelId(id: string): Observable<any> {
+    this.viagem = id;
       const loading = this.presentLoading('Carregando local...');
-      return this.http.get<any>(`${this.apiUrl}/${id}`, { headers: this.createAuthorizationHeader() }).pipe(
+      return this.http.get<any>(`${this.apiUrl}/${id}/locations`, { headers: this.createAuthorizationHeader() }).pipe(
         finalize(() => loading.then(l => l.dismiss())), // Dismiss o loading após a requisição
         catchError((error) => {
           this.errorHandler.handleError(error); // Chame o método de tratamento de erro
@@ -61,6 +62,20 @@ export class LocalService  {
         })
       );
     }
+    getCommentsByLocationId(locationId: string) {
+      // return this.http.get<any[]>(`https://mobile-api-one.vercel.app/api/travels/locations/${locationId}/comments`);
+      const loading = this.presentLoading('Carregando local...');
+      return this.http.get<any>(`${this.apiUrl}/locations/${locationId}`, { headers: this.createAuthorizationHeader() }).pipe(
+        finalize(() => loading.then(l => l.dismiss())), // Dismiss o loading após a requisição
+        catchError((error) => {
+          this.errorHandler.handleError(error); // Chame o método de tratamento de erro
+          return throwError(error); // Re-throw the error
+        })
+      );
+    }
+    // getLocationsByTravelId(id: string): Observable<any[]> {
+    //   return this.http.get<any[]>(`${this.apiUrl}/${id}/locations`);
+    // }
     // Atualizar uma viagem
   updateLocal(id: string, localData: any): Observable<any> {
     const loading = this.presentLoading('Atualizando viagem...');
@@ -80,17 +95,16 @@ export class LocalService  {
     );
   }
   // Método para criar um comentário
-  createComment(localId: string, comment: string): Observable<any> {
+  createComment(commentData: { locationId: string; comment: string }): Observable<any> {
     const loading = this.presentLoading('Adicionando comentário...');
-    const data = { localId, comment };
-    return this.http.post<any>(`${this.apiUrl}/comments`, data, { headers: this.createAuthorizationHeader() }).pipe(
+    return this.http.post<any>(`${this.apiUrl}/locations/comments`, commentData, { headers: this.createAuthorizationHeader() }).pipe(
       finalize(() => loading.then(l => l.dismiss())) // Dismiss o loading após a requisição
     );
   }
   // Método para deletar um comentário
   deleteComment(commentId: string): Observable<any> {
     const loading = this.presentLoading('Deletando comentário...');
-    return this.http.delete(`${this.apiUrl}/comments/${commentId}`, { headers: this.createAuthorizationHeader() }).pipe(
+    return this.http.delete(`${this.apiUrl}/locations/comments/${commentId}`, { headers: this.createAuthorizationHeader() }).pipe(
       finalize(() => loading.then(l => l.dismiss())) // Dismiss o loading após a requisição
     );
   }

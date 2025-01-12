@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Detalhes da Viagem</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="locations.length > 0; else noLocations">
+    <ion-item *ngFor="let location of locations">
+      <ion-label>
+        <h2>{{ location.description }}</h2>
+        <p>Tipo: {{ location.type }}</p>
+        <p>Estado: {{ location.state }}</p>
+        <ion-item>
+          <ion-input
+            [(ngModel)]="comments[location.id]"
+            placeholder="Escreva um comentário..."
+          ></ion-input>
+          <ion-button (click)="addComment(location.id)">Adicionar</ion-button>
+        </ion-item>
+
+        <ion-list>
+          <ion-item *ngFor="let comment of travelData.comments">
+            <ion-label>{{ comment.comment }}</ion-label>
+            <ion-button
+              (click)="deleteComment(comment.id)"
+              color="danger"
+              size="small"
+            >
+              Deletar
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ng-template #noLocations>
+    <p>Nenhuma localização encontrada.</p>
+  </ng-template>
+</ion-content>

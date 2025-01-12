@@ -80,8 +80,8 @@ export class ListTravelsPage implements OnInit {
     this.router.navigate(['/update-travel/', id]);
   }
 
-  goToTravelDetails(travelId: string) {
-    this.router.navigate(['/travel-details', travelId]);
+  goToDetailsTravel(travelId: string) {
+    this.router.navigate(['/details-travel/', travelId]); // Navega para a página de detalhes
   }
 
   async showAlert(header: string, message: string) {
