@@ -20,15 +20,9 @@
         </ion-item>
 
         <ion-list>
-          <ion-item *ngFor="let comment of travelData.comments">
+          <ion-item *ngFor="let comment of location.comments">
             <ion-label>{{ comment.comment }}</ion-label>
-            <ion-button
-              (click)="deleteComment(comment.id)"
-              color="danger"
-              size="small"
-            >
-              Deletar
-            </ion-button>
+            <ion-button (click)="deleteComment(comment.id)" color="danger" size="small">Deletar </ion-button>
           </ion-item>
         </ion-list>
       </ion-label>

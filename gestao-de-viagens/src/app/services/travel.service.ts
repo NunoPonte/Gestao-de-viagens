@@ -95,7 +95,7 @@ export class TravelService {
   // Método para deletar um comentário
   deleteComment(commentId: string): Observable<any> {
     const loading = this.presentLoading('Deletando comentário...');
-    return this.http.delete(`${this.apiUrl}/comments/${commentId}`, { headers: this.createAuthorizationHeader() }).pipe(
+    return this.http.delete(`${this.apiUrl}/locations/comments/${commentId}`, { headers: this.createAuthorizationHeader() }).pipe(
       finalize(() => loading.then(l => l.dismiss())) // Dismiss o loading após a requisição
     );
   }

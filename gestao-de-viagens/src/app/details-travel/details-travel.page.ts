@@ -13,7 +13,7 @@ import { ErrorHandlerService } from '../services/error-handler.service';
 })
 export class DetailsTravelPage implements OnInit {
   id!: string; // ID da viagem
-  travelData: any = {
+  localData: any = {
     description: '',
     type: '',
     state: '',
@@ -68,7 +68,7 @@ export class DetailsTravelPage implements OnInit {
       (data) => {
         this.locations = data.map((location: any) => ({
           ...location,
-          comments: [], // Inicializa o array de comentários para cada localização
+          comments: location.comments || [], // Inicializa o array de comentários para cada localização
         }));
   
         // Para cada localização, busca seus comentários na API
@@ -77,9 +77,9 @@ export class DetailsTravelPage implements OnInit {
             (comments) => {
               location.comments = comments; // Associa os comentários ao respectivo local
             },
-            (error) => {
-              console.error(`Erro ao carregar comentários para a localização ${location.id}:`, error);
-            }
+            // (error) => {
+            //   console.error(`Erro ao carregar comentários para a localização ${location.id}:`, error);
+            // }
           );
         });
       },
@@ -121,6 +121,9 @@ export class DetailsTravelPage implements OnInit {
       next: () => {
         this.comments[localId] = ''; // Limpa o campo de entrada
         this.loadTravelDetails(); // Recarrega as viagens para obter os comentários atualizados
+        this.router.navigate([`/details-travel/${this.id}`]).then(() => {
+          window.location.reload();
+        });
       },
       error: (error) => {
         console.error('Erro ao adicionar comentário:', error);
@@ -139,6 +142,9 @@ export class DetailsTravelPage implements OnInit {
         loading.dismiss();
         this.notificationService.presentToast('Comentário removido com sucesso!');
         this.loadTravelDetails(); // Recarrega as viagens para atualizar a lista de comentários
+        this.router.navigate([`/details-travel/${this.id}`]).then(() => {
+          window.location.reload();
+        });
       },
       (error) => {
         loading.dismiss();
