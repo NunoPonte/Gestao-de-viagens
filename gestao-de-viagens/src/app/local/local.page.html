@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Criar Local</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form (ngSubmit)="saveLocal()">
+    <ion-item>
+      <ion-label position="floating">Descrição</ion-label>
+      <ion-input [(ngModel)]="localData.description" name="description" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Tipo</ion-label>
+      <ion-input [(ngModel)]="localData.type" name="type" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Estado</ion-label>
+      <ion-input [(ngModel)]="localData.state" name="state" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Mapa</ion-label>
+      <ion-input [(ngModel)]="localData.map" name="map" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Início</ion-label>
+      <ion-datetime [(ngModel)]="localData.startAt" name="startAt"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Fim</ion-label>
+      <ion-datetime [(ngModel)]="localData.endAt" name="endAt"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Criado por</ion-label>
+      <ion-input [(ngModel)]="localData.createdBy" name="createdBy" required></ion-input>
+    </ion-item>
+    <ion-list>
+      <ion-item>
+        <ion-select label="Viagem" (ionChange)="onTravelChange($event)">
+          <ion-select-option *ngFor="let travel of travels" [value]="travel.id">{{ travel.description }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+    
+    <ion-button expand="full" type="submit">Salvar Local</ion-button>
+  </form>
+  
+</ion-content>

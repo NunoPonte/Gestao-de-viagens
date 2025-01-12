@@ -9,7 +9,8 @@ const routes: Routes = [
   { path: 'create-travel', loadChildren: () => import('./create-travel/create-travel.module').then(m => m.CreateTravelPageModule) }, // Lazy loading para criar viagem
   { path: 'list-travels', loadChildren: () => import('./list-travels/list-travels.module').then(m => m.ListTravelsPageModule) }, // Lazy loading para listar viagens
   { path: 'update-travel/:id', component: UpdateTravelComponent },
-  { path: 'travel-locations/:id', loadChildren: () => import('./travel-locations/travel-locations.module').then(m => m.TravelLocationsModule) },
+  { path: 'local', loadChildren: () => import('./local/local.module').then(m => m.LocalPageModule) },
+  { path: 'list-local', loadChildren: () => import('./list-local/list-local.module').then( m => m.ListLocalPageModule) },
 ];
 
 @NgModule({

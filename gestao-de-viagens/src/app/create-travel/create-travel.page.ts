@@ -21,13 +21,17 @@ export class CreateTravelPage {
     prop3: '',
     isFav: false,
   };
+  
 
   constructor(
     private travelService: TravelService,
     private loadingController: LoadingController,
     private alertController: AlertController,
-    private router: Router
+    private router: Router,
   ) {}
+
+  
+  
 
   async saveTravel() {
     const loading = await this.loadingController.create({
@@ -64,6 +68,7 @@ export class CreateTravelPage {
     );
   }
 
+  
   async showAlert(header: string, message: string) {
     const alert = await this.alertController.create({
       header,

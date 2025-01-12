@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TravelService } from '../services/travel.service';
 import { LoadingController, AlertController, ModalController } from '@ionic/angular';
-import { TravelModalComponent } from '../travel-modal/travel-modal.component'; // Certifique-se de que o caminho está correto
+import { TravelModalComponent } from '../travel-modal/travel-modal.component'; 
 
 @Component({
   selector: 'app-home',

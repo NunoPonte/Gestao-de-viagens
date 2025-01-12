@@ -56,6 +56,23 @@ export class UpdateTravelComponent implements OnInit {
     );
   }
 
+  onTravelChange(event: any) {
+    this.travelId = event.detail.value; // Armazena o ID da viagem selecionada
+    console.log('Viagem selecionada:', this.travelId);
+    this.loadTravelDetails(this.travelId); // Carrega os detalhes da viagem selecionada
+  }
+
+  loadTravelDetails(travelId: string) {
+    this.travelService.getTravelById(travelId).subscribe(
+      (data) => {
+        this.travelData = data; // Preenche os dados da viagem para edição
+      },
+      (error) => {
+        console.error('Erro ao carregar detalhes da viagem', error);
+      }
+    );
+  }
+
   loadSelectedTravel(id: string) {
     return this.travels.find(travel => travel.id === id);
   }
